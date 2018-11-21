@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="596.0" prefWidth="599.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev_app.controller.DevAppController">
+  <tabs>
+    <Tab text="работа с сотрудниками">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <AnchorPane layoutX="1.0" layoutY="-2.0" prefHeight="565.0" prefWidth="299.0">
+                     <children>
+                        <Label layoutX="79.0" layoutY="109.0" text="устройство на работу" />
+                        <TextField fx:id="p_name" layoutX="66.0" layoutY="166.0" promptText="name" />
+                        <TextField fx:id="p_surname" layoutX="66.0" layoutY="210.0" promptText="surname" />
+                        <CheckBox fx:id="p_dev" layoutX="107.0" layoutY="265.0" mnemonicParsing="false" text="разработчик" />
+                        <CheckBox fx:id="p_tester" layoutX="107.0" layoutY="290.0" mnemonicParsing="false" text="тестер" />
+                        <Button fx:id="p_send" layoutX="106.0" layoutY="332.0" mnemonicParsing="false" text="отправить " />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="300.0" layoutY="-1.0" prefHeight="566.0" prefWidth="300.0">
+                     <children>
+                        <Label layoutX="90.0" layoutY="95.0" text="перевод на проект" />
+                        <TextField fx:id="r_id" layoutX="67.0" layoutY="136.0" promptText="id (optional)" />
+                        <TextField fx:id="r_name" layoutX="67.0" layoutY="189.0" promptText="name" />
+                        <TextField fx:id="r_surname" layoutX="67.0" layoutY="225.0" promptText="surname" />
+                        <TextField fx:id="r_oldName" layoutX="120.0" layoutY="283.0" prefHeight="27.0" prefWidth="131.0" promptText="name" />
+                        <Button fx:id="r_send" layoutX="108.0" layoutY="371.0" mnemonicParsing="false" text="отправить" />
+                        <TextField fx:id="r_oldId" layoutX="85.0" layoutY="283.0" prefHeight="27.0" prefWidth="30.0" promptText="id" />
+                        <TextField fx:id="r_newName" layoutX="120.0" layoutY="317.0" prefHeight="27.0" prefWidth="131.0" promptText="name" />
+                        <TextField fx:id="r_newId" layoutX="85.0" layoutY="317.0" prefHeight="27.0" prefWidth="30.0" promptText="id" />
+                        <Label layoutX="9.0" layoutY="288.0" text="old project" />
+                        <Label layoutX="6.0" layoutY="322.0" text="new project" />
+                     </children>
+                  </AnchorPane>
+               </children></AnchorPane>
+      </content>
+    </Tab>
+      <Tab text="все о багах">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <AnchorPane prefHeight="170.0" prefWidth="300.0">
+                     <children>
+                        <Label layoutX="102.0" layoutY="14.0" text="создать баг" />
+                        <TextField fx:id="cb_prj_id" layoutX="70.0" layoutY="71.0" prefHeight="27.0" prefWidth="56.0" promptText="prj id" />
+                        <TextField fx:id="cb_prj_name" layoutX="156.0" layoutY="71.0" prefHeight="27.0" prefWidth="119.0" promptText="prj name" />
+                        <TextField fx:id="cb_dev_id" layoutX="70.0" layoutY="106.0" prefHeight="27.0" prefWidth="56.0" promptText="dev id" />
+                        <TextField fx:id="cb_dev_name" layoutX="156.0" layoutY="106.0" prefHeight="27.0" prefWidth="119.0" promptText="dev name" />
+                        <Label layoutX="26.0" layoutY="76.0" text="where" />
+                        <Label layoutX="32.0" layoutY="111.0" text="who" />
+                        <Label layoutX="133.0" layoutY="76.0" text="or" />
+                        <Label layoutX="133.0" layoutY="111.0" text="or" />
+                        <Label layoutX="29.0" layoutY="149.0" text="when" />
+                        <DatePicker fx:id="cb_date" layoutX="70.0" layoutY="144.0" />
+                        <Button fx:id="cb_create" layoutX="216.0" layoutY="182.0" mnemonicParsing="false" text="create" />
+                        <TextField fx:id="cb_bug_name" layoutX="70.0" layoutY="31.0" prefHeight="27.0" prefWidth="205.0" promptText="name or description" />
+                        <Label layoutX="27.0" layoutY="36.0" text="what" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutY="196.0" prefHeight="271.0" prefWidth="300.0">
+                     <children>
+                        <Label layoutX="119.0" layoutY="14.0" text="найти баг" />
+                        <TextField fx:id="fb_cat_id" layoutX="70.0" layoutY="68.0" prefHeight="27.0" prefWidth="56.0" promptText="id" />
+                        <TextField fx:id="fb_cat_name" layoutX="156.0" layoutY="68.0" prefHeight="27.0" prefWidth="119.0" promptText="name" />
+                        <TextField fx:id="fb_test_id" layoutX="70.0" layoutY="103.0" prefHeight="27.0" prefWidth="56.0" promptText="test id" />
+                        <TextField fx:id="fb_test_name" layoutX="156.0" layoutY="103.0" prefHeight="27.0" prefWidth="119.0" promptText="tester name" />
+                        <Label layoutX="5.0" layoutY="73.0" text="category" />
+                        <Label layoutX="32.0" layoutY="108.0" text="who" />
+                        <Label layoutX="133.0" layoutY="73.0" text="or" />
+                        <Label layoutX="133.0" layoutY="108.0" text="or" />
+                        <Label layoutX="29.0" layoutY="146.0" text="when" />
+                        <DatePicker fx:id="fb_date" layoutX="70.0" layoutY="141.0" />
+                        <Label layoutX="32.0" layoutY="182.0" text="fixer" />
+                        <TextField fx:id="fb_fixer_id" layoutX="70.0" layoutY="177.0" prefHeight="27.0" prefWidth="56.0" promptText="test id" />
+                        <TextField fx:id="fb_fixer_name" layoutX="156.0" layoutY="177.0" prefHeight="27.0" prefWidth="119.0" promptText="tester name" />
+                        <Label layoutX="133.0" layoutY="182.0" text="or" />
+                        <Button fx:id="fb_find" layoutX="213.0" layoutY="210.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="59.0" text="find" />
+                        <Label layoutX="4.0" layoutY="40.0" text="what bug" />
+                        <TextField fx:id="fb_bug_name" layoutX="156.0" layoutY="35.0" prefHeight="27.0" prefWidth="118.0" promptText="name or description" />
+                        <TextField fx:id="fb_bug_id" layoutX="70.0" layoutY="35.0" prefHeight="27.0" prefWidth="56.0" promptText="bug id" />
+                        <Label layoutX="133.0" layoutY="40.0" text="or" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutY="427.0" prefHeight="138.0" prefWidth="300.0">
+                     <children>
+                        <Label layoutX="104.0" layoutY="6.0" text="исправить баг" />
+                        <Label layoutX="13.0" layoutY="66.0" text="when" />
+                        <DatePicker fx:id="fixb_date" layoutX="68.0" layoutY="61.0" prefHeight="27.0" prefWidth="203.0" />
+                        <Button fx:id="fixb_fix" layoutX="210.0" layoutY="97.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="61.0" text="fix" />
+                        <Label layoutX="1.0" layoutY="35.0" text="what bug" />
+                        <TextField fx:id="fixb_bug_name" layoutX="153.0" layoutY="30.0" prefHeight="27.0" prefWidth="118.0" promptText="name or description" />
+                        <TextField fx:id="fixb_bug_id" layoutX="67.0" layoutY="30.0" prefHeight="27.0" prefWidth="56.0" promptText="bug id" />
+                        <Label layoutX="130.0" layoutY="35.0" text="or" />
+                     </children>
+                  </AnchorPane>
+                  <ListView fx:id="bags_list" layoutX="300.0" layoutY="14.0" prefHeight="534.0" prefWidth="285.0" />
+               </children>
+            </AnchorPane>
+         </content>
+      </Tab>
+    <Tab text="проекты">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="485.0" prefWidth="519.0">
+               <children>
+                  <AnchorPane prefHeight="563.0" prefWidth="300.0">
+                     <children>
+                        <Label layoutX="92.0" layoutY="110.0" text="создание проекта" />
+                        <TextField fx:id="cp_name" layoutX="67.0" layoutY="165.0" promptText="name" />
+                        <DatePicker fx:id="cp_start" layoutX="54.0" layoutY="221.0" promptText="start" />
+                        <DatePicker fx:id="cp_end" layoutX="54.0" layoutY="259.0" promptText="deadline" />
+                        <Button fx:id="cp_go" layoutX="109.0" layoutY="315.0" mnemonicParsing="false" text="запустить" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="300.0" layoutY="1.0" prefHeight="561.0" prefWidth="300.0">
+                     <children>
+                        <Label layoutX="83.0" layoutY="147.0" text="завершение проекта" />
+                        <Button fx:id="ep_end" layoutX="107.0" layoutY="326.0" mnemonicParsing="false" text="завершить" />
+                        <TextField fx:id="ep_id" layoutX="67.0" layoutY="189.0" promptText="id" />
+                        <TextField fx:id="ep_name" layoutX="67.0" layoutY="226.0" promptText="name" />
+                        <DatePicker fx:id="ep_dataEnd" layoutX="54.0" layoutY="276.0" promptText="date" />
+                     </children>
+                  </AnchorPane>
+               </children></AnchorPane>
+      </content>
+    </Tab>
+      <Tab text="отчетности">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <AnchorPane layoutX="300.0" prefHeight="563.0" prefWidth="292.0">
+                     <children>
+                        <Button fx:id="report_dev" layoutX="100.0" layoutY="22.0" mnemonicParsing="false" text="действующие разработки" />
+                        <Button fx:id="report_empl" layoutX="118.0" layoutY="68.0" mnemonicParsing="false" text="список сотрудников" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="563.0" prefWidth="387.0">
+                     <children>
+                        <ListView fx:id="report_list" layoutX="8.0" layoutY="8.0" prefHeight="548.0" prefWidth="372.0" />
+                     </children></AnchorPane>
+               </children>
+            </AnchorPane>
+         </content>
+      </Tab>
+  </tabs>
+</TabPane>
