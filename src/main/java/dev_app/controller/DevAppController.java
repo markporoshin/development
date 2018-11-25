@@ -1,19 +1,14 @@
 package dev_app.controller;
 
-import dev_app.controller.workers.CloseProject;
-import dev_app.controller.workers.CreateProject;
-import dev_app.controller.workers.CreateWorker;
-import dev_app.controller.workers.TransferWorker;
+import dev_app.controller.workers.*;
 import dev_app.controller.workers.bugs_controller.BugsController;
 import dev_app.controller.workers.bugs_controller.ListDate;
+import dev_app.controller.workers.report_controller.DiagramController;
 import dev_app.controller.workers.report_controller.ReportController;
 import dev_app.controller.workers.report_controller.ReportData;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.chart.StackedBarChart;
+import javafx.scene.control.*;
 
 public class DevAppController {
 
@@ -156,6 +151,21 @@ public class DevAppController {
     private ListView<ReportData> report_list;
 
     @FXML
+    private TextField nc_name;
+
+    @FXML
+    private TextArea nc_dsr;
+
+    @FXML
+    private Button nc_create;
+
+    @FXML
+    private Button d_refresh;
+
+    @FXML
+    private StackedBarChart<String, Integer> d_diagram;
+
+    @FXML
     void initialize() {
         new CreateWorker(p_name, p_surname, p_send, p_dev, p_tester).initialize();
         new TransferWorker(r_id, r_name, r_surname, r_oldId, r_oldName, r_newId, r_newName, r_send).initialize();
@@ -165,5 +175,7 @@ public class DevAppController {
                 fb_bug_id, fb_bug_name, fb_cat_id, fb_cat_name,fb_test_id,fb_test_name,fb_date,fb_fixer_id,fb_fixer_name,fb_find,
                 fixb_bug_id, fixb_bug_name, fixb_date,fixb_fix, bags_list).initialize();
         new ReportController(report_dev, report_empl, report_list).initialize();
+        new CreateCategory(nc_name, nc_dsr, nc_create).initialize();
+        new DiagramController(d_diagram, d_refresh).initialize();
     }
 }

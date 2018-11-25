@@ -2,11 +2,9 @@ package general;
 
 import com.sun.xml.internal.xsom.impl.scd.Iterators;
 import db.DBProcessor;
+import dev_app.controller.workers.report_controller.DiagramData;
 import dev_app.controller.workers.report_controller.ReportData;
-import entity.Bug;
-import entity.History;
-import entity.Project;
-import entity.Worker;
+import entity.*;
 
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -183,6 +181,31 @@ public class SQLQuery {
         return data;
     }
 
+    public static void CreateCategory(String name, String surname) throws SQLException {
+        String query = new Insert(Category.TABLE, Category.NAME, Category.DESCRIPTION).
+                values(name, surname);
+        DBProcessor.getStatement().execute(query);
+    }
+
+    public static LinkedList<DiagramData> getDiagramData() throws SQLException {
+        LinkedList<DiagramData> res = new LinkedList<>();
+        String queery = "select prj_name, sum(period) as p from\n" +
+                "(SELECT  prj_name, sum((if(date_end is null, to_days(now()), to_days(date_end)) - to_days(date_start))) as period FROM \n" +
+                "development.history  as h\n" +
+                "left join\n" +
+                "development.projects as p\n" +
+                "on prj_id = prj_to\n" +
+                "GROUP BY prj_to\n" +
+                "union\n" +
+                "SELECT  prj_name, (0) as period FROM development.projects) as t\n" +
+                "GROUP BY prj_name";
+        ResultSet set = DBProcessor.getStatement().executeQuery(queery);
+        while (set.next()) {
+            res.add(new DiagramData(set.getString("prj_name"), set.getInt("p")));
+        }
+        return res;
+    }
+
     static class Insert {
         private String table;
         private StringBuilder args;
@@ -286,6 +309,8 @@ public class SQLQuery {
             return "update " + table + set + where;
         }
     }
+
+
 
 
 

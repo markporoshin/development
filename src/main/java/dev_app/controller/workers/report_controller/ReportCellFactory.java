@@ -10,8 +10,10 @@ public class ReportCellFactory extends ListCell<ReportData> {
     protected void updateItem(ReportData item, boolean empty) {
         super.updateItem(item, empty);
 
-        if (item == null || empty)
+        if (item == null || empty) {
+            setText("");
             return;
+        }
         if (item.t == PRJ) {
             setText(item.prj.prj_name + "\n" + getEmpl(item));
         } else {
