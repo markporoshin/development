@@ -1,6 +1,8 @@
 package general;
 
+import com.sun.xml.internal.xsom.impl.scd.Iterators;
 import db.DBProcessor;
+import dev_app.controller.workers.report_controller.ReportData;
 import entity.Bug;
 import entity.History;
 import entity.Project;
@@ -10,13 +12,14 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.LinkedList;
 
 public class SQLQuery {
 
     public static void AddWorker(String name, String surname, String type) throws SQLException {
         String query = new Insert(Worker.TABLE, Worker.NAME, Worker.SURNAME, Worker.PRJ_1, Worker.PRJ_2, Worker.IS_DEV).
                 values(name, surname, "-1", "-1", type);
-
         DBProcessor.getStatement().execute(query);
     }
 
@@ -100,6 +103,84 @@ public class SQLQuery {
         }
         String query = new Select("*").from(Project.TABLE).where(id, title).get();
         return DBProcessor.getStatement().executeQuery(query);
+    }
+
+    public static HashMap<String, ReportData> getProjectsReport() throws SQLException {
+        HashMap<String, ReportData> data = new HashMap<>();
+        String query = "select prj_name, (null) as emp_name, (null) as emp_surname \n" +
+                "from\n" +
+                "development.projects as prj\n" +
+                "where prj_id > 0\n" +
+                "union\n" +
+                "select prj_name, emp_name, emp_surname from\n" +
+                "development.projects as prj\n" +
+                "right outer join \n" +
+                "development.employees as empl\n" +
+                "on prj.prj_id = empl.prj_id_1\n" +
+                "where prj_id > 0\n" +
+                "union\n" +
+                "select prj_name, emp_name, emp_surname from \n" +
+                "development.projects as prj \n" +
+                "right outer join \n" +
+                "development.employees as empl\n" +
+                "on prj.prj_id = empl.prj_id_2\n" +
+                "where prj_id > 0";
+
+        ResultSet set = DBProcessor.getStatement().executeQuery(query);
+
+        while(set.next()) {
+            String prj_name = set.getString("prj_name");
+
+            if(!data.containsKey(prj_name)) {
+                data.put(prj_name, new ReportData(prj_name));
+            }
+            if (set.getString("emp_name") != null) {
+                String name = set.getString("emp_name");
+                String surname = set.getString("emp_surname");
+                ReportData buf = data.get(prj_name);
+                buf.addEmplToPrj(name, surname);
+            }
+
+        }
+
+        return  data;
+    }
+
+    public static HashMap<String, ReportData> getEmplsReport() throws SQLException {
+        HashMap<String, ReportData> data = new HashMap<>();
+        String query = "select (null) as date_start, (null) as date_end, emp_name, emp_surname, (null) as prj_name FROM\n" +
+                "development.employees as e\n" +
+                "union\n" +
+                "SELECT date_start, date_end, emp_name, emp_surname, prj_name FROM\n" +
+                "development.history as h\n" +
+                "left join\n" +
+                "development.employees as e\n" +
+                "on h.emp_id = e.emp_id\n" +
+                "left join\n" +
+                "development.projects as p\n" +
+                "on h.prj_to = p.prj_id\n" +
+                "order by date_start";
+        ResultSet set = DBProcessor.getStatement().executeQuery(query);
+
+        while(set.next()) {
+            String name = set.getString("emp_name");
+            String surname = set.getString("emp_surname");
+            if(!data.containsKey(name+surname)) {
+                data.put(name+surname, new ReportData(name, surname));
+            }
+
+
+            ReportData buf = data.get(name+surname);
+            Date start = set.getDate("date_start");
+            Date end = set.getDate("date_end");
+            String prj_name = set.getString("prj_name");
+            if (start != null && prj_name != null)
+                buf.addTransferToEmpl(start, end, prj_name);
+
+
+        }
+
+        return data;
     }
 
     static class Insert {
@@ -205,4 +286,8 @@ public class SQLQuery {
             return "update " + table + set + where;
         }
     }
+
+
+
+
 }

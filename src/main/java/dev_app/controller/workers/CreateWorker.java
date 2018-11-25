@@ -36,7 +36,7 @@ public class CreateWorker {
             if ((dev.isSelected())) {
                 isDev = 1;
             } else {
-                isDev = 1;
+                isDev = 0;
             }
 
 

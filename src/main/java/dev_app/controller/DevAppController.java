@@ -6,6 +6,8 @@ import dev_app.controller.workers.CreateWorker;
 import dev_app.controller.workers.TransferWorker;
 import dev_app.controller.workers.bugs_controller.BugsController;
 import dev_app.controller.workers.bugs_controller.ListDate;
+import dev_app.controller.workers.report_controller.ReportController;
+import dev_app.controller.workers.report_controller.ReportData;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -151,7 +153,7 @@ public class DevAppController {
     private Button report_empl;
 
     @FXML
-    private ListView<?> report_list;
+    private ListView<ReportData> report_list;
 
     @FXML
     void initialize() {
@@ -162,5 +164,6 @@ public class DevAppController {
         new BugsController(cb_bug_name, cb_prj_id,cb_prj_name,cb_dev_id,cb_dev_name,cb_date,cb_create,
                 fb_bug_id, fb_bug_name, fb_cat_id, fb_cat_name,fb_test_id,fb_test_name,fb_date,fb_fixer_id,fb_fixer_name,fb_find,
                 fixb_bug_id, fixb_bug_name, fixb_date,fixb_fix, bags_list).initialize();
+        new ReportController(report_dev, report_empl, report_list).initialize();
     }
 }
