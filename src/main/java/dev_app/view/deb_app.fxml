@@ -111,7 +111,7 @@
             </AnchorPane>
          </content>
       </Tab>
-      <Tab text="категории багов">
+      <Tab text="категории багов/увольнение">
          <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
@@ -123,6 +123,7 @@
                         <Button fx:id="nc_create" layoutX="116.0" layoutY="430.0" mnemonicParsing="false" text="создать" />
                      </children>
                   </AnchorPane>
+                  <Button layoutX="459.0" layoutY="109.0" mnemonicParsing="false" text="уволить тестеров" />
                </children>
             </AnchorPane>
          </content>

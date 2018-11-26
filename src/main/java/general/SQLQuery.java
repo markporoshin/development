@@ -28,7 +28,7 @@ public class SQLQuery {
     }
 
     public static void AddBug(String name, String prj_id, String dev_id, LocalDate when) throws SQLException {
-        String query = new Insert(Bug.TABLE, Bug.NAME, Bug.CREATOR, Bug.PRJ_ID, Bug.START, Bug.DONE).
+        String query = new Insert(Bug.TABLE, Bug.NAME, Bug.PRJ_ID, Bug.CREATOR, Bug.START, Bug.DONE).
                 values(name, String.valueOf(prj_id), String.valueOf(dev_id), when.toString(), "0");
         DBProcessor.getStatement().execute(query);
     }
@@ -206,6 +206,53 @@ public class SQLQuery {
         return res;
     }
 
+    public static void sackDevelopmers(int M) throws SQLException {
+        String query = "update \n" +
+                "development.employees\n" +
+                "left join\n" +
+                "(SELECT count(bug_id) as bugs, creator_id \n" +
+                "FROM development.bugs \n" +
+                "where (to_days(now()) - to_days(bug_start)) < 30 group by creator_id) as t\n" +
+                "on emp_id = creator_id\n" +
+                "set is_sack = (if(bugs > " + M +", 1, 0))";
+        DBProcessor.getStatement().execute(query);
+    }
+
+    public static void sackTesters(int M) throws SQLException {
+        String query = "update \n" +
+                "development.employees\n" +
+                "left join\n" +
+                "(SELECT count(bug_id) as bugs, fixer_id \n" +
+                "FROM development.bugs \n" +
+                "where (to_days(now()) - to_days(bug_deadline)) > 30 \n" +
+                "and fixer_id is not null\n" +
+                "group by fixer_id) as t\n" +
+                "on emp_id = fixer_id\n" +
+                "set is_sack = (if(bugs > " + M + ", 1, 0))";
+        DBProcessor.getStatement().execute(query);
+    }
+
+    public static  ResultSet selectSuckerFixers(int M) throws SQLException {
+        String query = "select * from (SELECT count(bug_id) as bugs, fixer_id \n" +
+                "FROM development.bugs \n" +
+                "where (to_days(now()) - to_days(bug_deadline)) > 30 \n" +
+                "and fixer_id is not null\n" +
+                "and bug_done = 0\n" +
+                "group by fixer_id) as t\n" +
+                "where t.bugs > " + M;
+        return DBProcessor.getStatement().executeQuery(query);
+    }
+
+    public static  ResultSet selectSuckerDevs(int M) throws SQLException {
+        String query = "select * from (SELECT count(bug_id) as bugs, creator_id \n" +
+                "FROM development.bugs \n" +
+                "where (to_days(now()) - to_days(bug_start)) < 30 \n" +
+                "and bug_done = 0\n" +
+                "group by creator_id) as t\n" +
+                "where t.bugs > " + M;
+        return DBProcessor.getStatement().executeQuery(query);
+    }
+
     static class Insert {
         private String table;
         private StringBuilder args;
@@ -316,3 +363,13 @@ public class SQLQuery {
 
 
 }
+
+/*
+update development.employees
+inner join
+(SELECT count(bug_id) as bugs, creator_id
+FROM development.bugs
+where (to_days(now()) - to_days(bug_start)) < 30 group by creator_id) as t
+set is_sack = 1
+where is_dev = 1 and t.bugs > 3
+*/
