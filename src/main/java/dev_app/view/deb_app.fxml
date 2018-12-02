@@ -124,6 +124,7 @@
                      </children>
                   </AnchorPane>
                   <Button layoutX="459.0" layoutY="109.0" mnemonicParsing="false" text="уволить тестеров" />
+                  <Button layoutX="440.0" layoutY="320.0" mnemonicParsing="false" text="уволить разработчиков" />
                </children>
             </AnchorPane>
          </content>
